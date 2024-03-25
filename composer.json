@@ -1,0 +1,21 @@
+{
+    "name": "maksimkrishtopa/prac_php",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "MaksimKrishtopa",
+            "email": "k.maks21@mail.ru"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.4 | ^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Src\\": "core/Src/",
+            "": "app/"
+        }
+    }
+}
