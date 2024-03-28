@@ -2,7 +2,7 @@
 return [
    'driver' => 'mysql',
    'host' => 'localhost',
-   'database' => 'mvc',
+   'database' => 'dekanat',
    'username' => 'root',
    'password' => '',
    'charset' => 'utf8',

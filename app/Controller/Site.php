@@ -10,17 +10,25 @@ use Src\Auth\Auth;
 
 class Site
 {
-    public function index(): string
-    {
-       $posts = Post::all();
-       return (new View())->render('site.post', ['posts' => $posts]);
-    }
-    
 
-   public function hello(): string
-   {
-       return new View('site.hello', ['message' => 'hello working']);
-   }
+    public function getAllGroups()
+    {
+        $groups = \Model\Group::all(); // Предположим, что у вас есть модель Group, представляющая таблицу групп
+        return $groups;
+    }
+
+    public function hello(): string
+    {
+        $students = \Model\Student::all();
+        return (new View())->render('site.student', ['students' => $students]);
+    }
+
+
+
+//    public function hello(): string
+//    {
+//        return new View('site.hello', ['message' => 'hello working']);
+//    }
    
    public function signup(Request $request): string
    {
