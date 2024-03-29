@@ -55,7 +55,7 @@
                 <!-- Добавляем кнопку "подробнее" и скрытую подробную информацию -->
                 <span class="show-details">Подробнее</span>
                 <div class="details">
-                    Группа: <?= $student->grupa ?><br>
+                    Группа: <?= $student->getGroupNumber() ?><br>
                     Пол: <?= $student->gender ?><br>
                     Дата рождения: <?= $student->birthday ?><br>
                     Адрес: <?= $student->address ?><br>
@@ -65,6 +65,29 @@
         <?php endforeach; ?>
     </ul>
 </div>
+
+<div class="block__container">
+    <h1>Группы</h1>
+    
+    <ul>
+        <?php foreach ($groups as $group): ?>
+            <li><?= $group->grup_number ?>, Курс: <?= $group->course ?>, Семестр: <?= $group->semester ?></li>
+        <?php endforeach; ?>
+    </ul>
+    
+</div>
+
+<div class="block__container">
+    <h1>Дисциплины</h1>
+    <ul>
+        <?php foreach ($disciplines as $discipline): ?>
+            <li><?= $discipline->discipline_name ?></li>
+        <?php endforeach; ?>
+    </ul>
+</div>
+
+
+
 
 <script>
     // Получаем все элементы с классом "show-details"

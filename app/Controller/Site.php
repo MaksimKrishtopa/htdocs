@@ -7,28 +7,95 @@ use Src\View;
 use Src\Request;
 use Model\User;
 use Src\Auth\Auth;
+use Model\Grupa;
+use Model\Student;
+use Model\Discipline;
+use Model\Grade;
 
 class Site
 {
 
-    public function getAllGroups()
+    private function checkUserRole(): string
     {
-        $groups = \Model\Group::all(); // Предположим, что у вас есть модель Group, представляющая таблицу групп
-        return $groups;
+        $role = Auth::user()->role;
+
+        switch ($role) {
+            case 'dekan':
+                return 'dekan';
+            case 'administrator':
+                return 'administrator';
+            default:
+                return 'default';
+        }
     }
+
+    public function addStudent(Request $request): string
+    {
+        $student = new Student();
+        $student->surname = $request->input('surname');
+        $student->name = $request->input('name');
+        $student->patronomic = $request->input('patronomic');
+        $student->gender = $request->input('gender');
+        $student->birthday = $request->input('birthday');
+        $student->address = $request->input('address');
+        $student->grupa = $request->input('grupa');
+        $student->save();
+
+        return 'Студент успешно добавлен.';
+    }
+
+    // Метод для добавления группы
+    public function addGroup(Request $request): string
+    {
+        $group = new Grupa();
+        $group->grup_number = $request->input('grup_number');
+        $group->course = $request->input('course');
+        $group->semester = $request->input('semester');
+        $group->save();
+
+        return 'Группа успешно добавлена.';
+    }
+
+    // Метод для добавления дисциплины
+    public function addDiscipline(Request $request): string
+    {
+        $discipline = new Discipline();
+        $discipline->discipline_name = $request->input('discipline_name');
+        $discipline->save();
+
+        return 'Дисциплина успешно добавлена.';
+    }
+
+    // Метод для добавления сотрудника (декана)
+    public function addEmployee(Request $request): string
+    {
+        $user = new User();
+        $user->name = $request->input('name');
+        $user->login = $request->input('login');
+        $user->password = $request->input('password');
+        $user->role = $request->input('role');
+        $user->save();
+
+        return 'Сотрудник успешно добавлен.';
+    }
+
+    
+
 
     public function hello(): string
     {
-        $students = \Model\Student::all();
-        return (new View())->render('site.student', ['students' => $students]);
+        // Получаем список всех студентов
+        $students = Student::all();
+    
+        // Получаем список всех групп
+        $groups = Grupa::all();
+
+        $disciplines = Discipline::all();
+    
+        // Возвращаем представление, передавая списки студентов и групп
+        return (new View())->render('site.student', ['students' => $students, 'groups' => $groups, 'disciplines' => $disciplines]);
     }
 
-
-
-//    public function hello(): string
-//    {
-//        return new View('site.hello', ['message' => 'hello working']);
-//    }
    
    public function signup(Request $request): string
    {

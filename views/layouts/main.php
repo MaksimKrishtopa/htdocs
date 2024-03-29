@@ -36,8 +36,13 @@
       }
 
       .container {
-        margin-left: 200px; /* Отступ слева */
-        margin-right: 200px; /* Отступ справа */
+        margin-left: 200px; 
+        margin-right: 200px;
+      }
+
+      main {
+         display: flex;
+         justify-content: space-between;
       }
 
       .Logo {
