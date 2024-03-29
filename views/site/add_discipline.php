@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Discipline</title>
+</head>
+<body>
+    <h1>Add Discipline</h1>
+    <form action="/add-discipline" method="POST">
+        <label for="discipline_name">Discipline Name:</label><br>
+        <input type="text" id="discipline_name" name="discipline_name"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

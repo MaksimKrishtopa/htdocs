@@ -36,7 +36,7 @@
     }
 
     .details {
-        display: none; /* Скрыть подробную информацию по умолчанию */
+        display: none; 
     }
 
     .show-details {
@@ -52,14 +52,13 @@
         <?php foreach ($students as $student): ?>
             <li>
                 <?= $student->surname ?> <?= $student->name ?> <?= $student->patronymic ?>
-                <!-- Добавляем кнопку "подробнее" и скрытую подробную информацию -->
                 <span class="show-details">Подробнее</span>
                 <div class="details">
                     Группа: <?= $student->getGroupNumber() ?><br>
                     Пол: <?= $student->gender ?><br>
                     Дата рождения: <?= $student->birthday ?><br>
                     Адрес: <?= $student->address ?><br>
-                    <!-- Добавьте остальные поля, если необходимо -->
+                    
                 </div>
             </li>
         <?php endforeach; ?>
@@ -87,18 +86,11 @@
 </div>
 
 
-
-
 <script>
-    // Получаем все элементы с классом "show-details"
     const showButtons = document.querySelectorAll('.show-details');
-
-    // Для каждой кнопки добавляем обработчик события клика
     showButtons.forEach(button => {
         button.addEventListener('click', () => {
-            // Находим следующий элемент после кнопки, который содержит подробную информацию
             const details = button.nextElementSibling;
-            // Переключаем видимость подробной информации
             details.style.display = details.style.display === 'none' ? 'block' : 'none';
         });
     });

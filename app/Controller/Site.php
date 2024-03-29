@@ -10,7 +10,7 @@ use Src\Auth\Auth;
 use Model\Grupa;
 use Model\Student;
 use Model\Discipline;
-use Model\Grade;
+
 
 class Site
 {
@@ -29,54 +29,79 @@ class Site
         }
     }
 
-    public function addStudent(Request $request): string
+    public function add_student(Request $request): string
     {
+        // Создаем новый объект студента
         $student = new Student();
-        $student->surname = $request->input('surname');
-        $student->name = $request->input('name');
-        $student->patronomic = $request->input('patronomic');
-        $student->gender = $request->input('gender');
-        $student->birthday = $request->input('birthday');
-        $student->address = $request->input('address');
-        $student->grupa = $request->input('grupa');
+    
+        // Устанавливаем данные студента из запроса
+        $data = $request->all();
+        $student->surname = $data['surname'] ?? '';
+        $student->name = $data['name'] ?? '';
+        $student->patronymic = $data['patronymic'] ?? '';
+        $student->gender = $data['gender'] ?? '';
+        $student->birthday = $data['birthday'] ?? '';
+        $student->address = $data['address'] ?? '';
+        $student->grupa = $data['grupa'] ?? '';
+    
+        // Сохраняем студента в базе данных
         $student->save();
-
-        return 'Студент успешно добавлен.';
+    
+        // Возвращаем сообщение об успешном добавлении
+        return new View('site.add_student');
     }
 
     // Метод для добавления группы
     public function addGroup(Request $request): string
     {
+        // Создаем новый объект группы
         $group = new Grupa();
-        $group->grup_number = $request->input('grup_number');
-        $group->course = $request->input('course');
-        $group->semester = $request->input('semester');
+
+        // Устанавливаем данные группы из запроса
+        $group->grup_number = $request->get('grup_number');
+        $group->course = $request->get('course');
+        $group->semester = $request->get('semester');
+
+        // Сохраняем группу в базе данных
         $group->save();
 
+        // Возвращаем сообщение об успешном добавлении
         return 'Группа успешно добавлена.';
     }
 
     // Метод для добавления дисциплины
     public function addDiscipline(Request $request): string
     {
+        // Создаем новый объект дисциплины
         $discipline = new Discipline();
-        $discipline->discipline_name = $request->input('discipline_name');
+
+        // Устанавливаем данные дисциплины из запроса
+        $discipline->discipline_name = $request->get('discipline_name');
+
+        // Сохраняем дисциплину в базе данных
         $discipline->save();
 
+        // Возвращаем сообщение об успешном добавлении
         return 'Дисциплина успешно добавлена.';
     }
 
     // Метод для добавления сотрудника (декана)
     public function addEmployee(Request $request): string
     {
-        $user = new User();
-        $user->name = $request->input('name');
-        $user->login = $request->input('login');
-        $user->password = $request->input('password');
-        $user->role = $request->input('role');
-        $user->save();
+        // Создаем новый объект сотрудника
+        $employee = new User();
 
-        return 'Сотрудник успешно добавлен.';
+        // Устанавливаем данные сотрудника из запроса
+        $employee->name = $request->get('name');
+        $employee->login = $request->get('login');
+        $employee->password = $request->get('password');
+        $employee->role = 'dekan'; // Устанавливаем роль "декан"
+
+        // Сохраняем сотрудника в базе данных
+        $employee->save();
+
+        // Возвращаем сообщение об успешном добавлении
+        return 'Сотрудник (декан) успешно добавлен.';
     }
 
     
