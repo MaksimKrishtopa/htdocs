@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Add Group</h1>
-    <form action="/add-group" method="POST">
+    <form method="POST">
         <label for="grup_number">Group Number:</label><br>
         <input type="text" id="grup_number" name="grup_number"><br>
         <label for="course">Course:</label><br>

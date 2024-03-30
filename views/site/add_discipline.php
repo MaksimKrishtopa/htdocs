@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Add Discipline</h1>
-    <form action="/add-discipline" method="POST">
+    <form method="POST">
         <label for="discipline_name">Discipline Name:</label><br>
         <input type="text" id="discipline_name" name="discipline_name"><br><br>
         <input type="submit" value="Submit">

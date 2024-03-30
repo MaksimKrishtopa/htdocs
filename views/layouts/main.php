@@ -53,7 +53,7 @@
       .nav-links {
          display: flex;
          gap: 80px;
-         font-size: 20px;
+         font-size: 16px;
       }
 
       .account {
@@ -73,6 +73,11 @@
          bottom: 0;
          width: 100%; 
       }
+
+      .dropdown-content {
+         display: flex;
+         gap: 15px;
+      }
    </style>
    <nav class="container">
       <div class="Logo"><p>DekanatPro</p></div>
@@ -81,18 +86,16 @@
         <?php if (app()->auth::check()): ?>
           <?php if (app()->auth::user()->role === 'dekan'): ?>
             <div class="dropdown">
-              <button class="dropbtn">Добавить</button>
               <div class="dropdown-content">
                 <a href="<?= app()->route->getUrl('/add_student') ?>">Добавить студента</a>
-                <a href="<?= app()->route->getUrl('/add-group') ?>">Добавить группу</a>
-                <a href="<?= app()->route->getUrl('/add-discipline') ?>">Добавить дисциплину</a>
+                <a href="<?= app()->route->getUrl('/add_grup') ?>">Добавить группу</a>
+                <a href="<?= app()->route->getUrl('/add_discipline') ?>">Добавить дисциплину</a>
               </div>
             </div>
           <?php elseif (app()->auth::user()->role === 'administrator'): ?>
             <div class="dropdown">
-              <button class="dropbtn">Добавить</button>
               <div class="dropdown-content">
-                <a href="<?= app()->route->getUrl('/add-employee') ?>">Добавить сотрудника (декана)</a>
+                <a href="<?= app()->route->getUrl('/add_employee') ?>">Добавить сотрудника (декана)</a>
               </div>
             </div>
           <?php endif; ?>
@@ -101,8 +104,8 @@
       <div class="account">
         <?php if (!app()->auth::check()): ?>
           <a href="<?= app()->route->getUrl('/login') ?>">Войти в аккаунт</a>
-          <span> | </span>
-          <a href="<?= app()->route->getUrl('/signup') ?>">Регистрация</a>
+          <!-- <span> | </span>
+          <a href="<?= app()->route->getUrl('/signup') ?>">Регистрация</a> -->
         <?php else: ?>
           <a href="<?= app()->route->getUrl('/logout') ?>">Выйти из аккаунта(<?= app()->auth::user()->name ?>)</a>
         <?php endif; ?>

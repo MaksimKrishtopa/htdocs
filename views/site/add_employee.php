@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Add Employee (Dekan)</h1>
-    <form action="/add-employee" method="POST">
+    <form method="POST">
         <label for="name">Name:</label><br>
         <input type="text" id="name" name="name"><br>
         <label for="login">Login:</label><br>

@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Add Student</h1>
-    <form action="/add-student" method="POST">
+    <form method="post">
         <label for="surname">Surname:</label><br>
         <input type="text" id="surname" name="surname"><br>
         <label for="name">Name:</label><br>

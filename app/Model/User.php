@@ -31,13 +31,13 @@ class User extends Model implements IdentityInterface
        return self::where('id', $id)->first();
    }
 
-   //Возврат первичного ключа
+   
    public function getId(): int
    {
        return $this->id;
    }
 
-   //Возврат аутентифицированного пользователя
+   
    public function attemptIdentity(array $credentials)
    {
        return self::where(['login' => $credentials['login'],
