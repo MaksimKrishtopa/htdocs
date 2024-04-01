@@ -33,6 +33,7 @@
          align-items: center;
          justify-content: space-between;
          height: 70px;
+         font-size: 14px;
       }
 
       .container {
@@ -74,9 +75,10 @@
          width: 100%; 
       }
 
-      .dropdown-content {
+      .dropdown {
          display: flex;
          gap: 15px;
+         font-size: 16px;
       }
    </style>
    <nav class="container">
@@ -86,17 +88,18 @@
         <?php if (app()->auth::check()): ?>
           <?php if (app()->auth::user()->role === 'dekan'): ?>
             <div class="dropdown">
-              <div class="dropdown-content">
-                <a href="<?= app()->route->getUrl('/add_student') ?>">Добавить студента</a>
-                <a href="<?= app()->route->getUrl('/add_grup') ?>">Добавить группу</a>
-                <a href="<?= app()->route->getUrl('/add_discipline') ?>">Добавить дисциплину</a>
-              </div>
+
+                <a href="<?= app()->route->getUrl('/add_student') ?>">+ Студента</a>
+                <a href="<?= app()->route->getUrl('/add_grup') ?>">+ Группу</a>
+                <a href="<?= app()->route->getUrl('/add_discipline') ?>">+ Дисциплину</a>
+                <a href="<?= app()->route->getUrl('/grades') ?>">Успеваемость</a>
+
             </div>
           <?php elseif (app()->auth::user()->role === 'administrator'): ?>
             <div class="dropdown">
-              <div class="dropdown-content">
+
                 <a href="<?= app()->route->getUrl('/add_employee') ?>">Добавить сотрудника (декана)</a>
-              </div>
+
             </div>
           <?php endif; ?>
         <?php endif; ?>

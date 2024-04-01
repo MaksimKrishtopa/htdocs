@@ -22,3 +22,7 @@ Route::add(['GET','POST'], '/add_discipline', [Controller\Site::class, 'add_disc
 
 Route::add(['GET','POST'], '/add_employee', [Controller\Site::class, 'add_employee'])
     ->middleware('auth');
+
+Route::add('GET', '/grades', [Controller\Site::class, 'showGrades'])
+    ->middleware('auth');
+

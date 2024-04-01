@@ -17,4 +17,9 @@ class Grupa extends Model
         return static::where('id_grupa', $id)->first();
     }
 
+        public function disciplines()
+    {
+        return $this->hasMany(GrupDisc::class, 'id_grupa');
+    }
+
 }

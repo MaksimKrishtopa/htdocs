@@ -14,6 +14,11 @@ class Student extends Model
     public $timestamps = false;
     protected $fillable = ['surname', 'name', 'patronymic', 'gender', 'birthday','address', 'grupa'];
 
+    public function group()
+    {
+        return $this->belongsTo(Grupa::class, 'grupa');
+    }
+
     public function getGroupNumber()
     {
        

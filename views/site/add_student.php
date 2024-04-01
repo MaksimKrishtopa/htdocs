@@ -21,7 +21,11 @@
         <label for="address">Address:</label><br>
         <input type="text" id="address" name="address"><br>
         <label for="grupa">Group:</label><br>
-        <input type="text" id="grupa" name="grupa"><br><br>
+        <select id="grupa" name="grupa">
+            <?php foreach ($groups as $group): ?>
+                <option value="<?= $group->id_grupa ?>"><?= $group->grup_number ?></option>
+            <?php endforeach; ?>
+        </select><br><br>
         <input type="submit" value="Submit">
     </form>
 </body>
