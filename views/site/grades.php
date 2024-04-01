@@ -19,11 +19,25 @@
         th {
             background-color: #f2f2f2;
         }
+
+        .grade__container {
+            display: flex;
+            justify-content: start;
+            flex-direction: column;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
     </style>
 </head>
 <body>
 
-<h1>Успеваемость студентов</h1>
+<div class="grade__container">
+
+<h1>Успеваемость</h1>
 
 <form action="/grades" method="post">
     <label for="grup">Выберите группу:</label>
@@ -50,9 +64,9 @@
         <?php endforeach; ?>
     </select>
     
-    <input type="submit" value="Показать">
+    <input style="margin-top: 15px" type="submit" value="Показать">
 </form>
-
+</div>
 <?php if ($selectedStudent): ?>
     <h2>Успеваемость студента: <?= $selectedStudent->name ?></h2>
     <table>

@@ -6,7 +6,7 @@
     <title>Add Group</title>
 </head>
 <body>
-    <h1>Add Group</h1>
+    <h1>Добавление группы</h1>
     <form method="POST">
         <label for="grup_number">Group Number:</label><br>
         <input type="text" id="grup_number" name="grup_number"><br>

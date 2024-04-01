@@ -6,7 +6,7 @@
     <title>Add Employee</title>
 </head>
 <body>
-    <h1>Add Employee (Dekan)</h1>
+    <h1>Добавление декана</h1>
     <form method="POST">
         <label for="name">Name:</label><br>
         <input type="text" id="name" name="name"><br>

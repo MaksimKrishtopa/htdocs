@@ -6,7 +6,7 @@
     <title>Add Student</title>
 </head>
 <body>
-    <h1>Add Student</h1>
+    <h1>Добавление студента</h1>
     <form method="post">
         <label for="surname">Surname:</label><br>
         <input type="text" id="surname" name="surname"><br>
