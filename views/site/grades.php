@@ -30,7 +30,12 @@
             display: flex;
             flex-direction: column;
         }
-
+        
+        .info__grades-table {
+            display: flex;
+            flex-direction: column;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -67,13 +72,24 @@
     <input style="margin-top: 15px" type="submit" value="Показать">
 </form>
 </div>
-<?php if ($selectedStudent): ?>
-    <h2>Успеваемость студента: <?= $selectedStudent->name ?></h2>
+<div class="info__grades-table">
+    
+    <h2>Информация: </h2>
+    <select style="margin-bottom: 10px" name="control" id="control">
+    <option value="">Выберите вид контроля</option>
+    <?php foreach ($controlTypes as $controlType): ?>
+        <option value="<?= $controlType ?>"><?= $controlType ?></option>
+    <?php endforeach; ?>
+</select>
+
     <table>
         <thead>
             <tr>
+                <th>Студент</th>
                 <th>Дисциплина</th>
+                <th>Группа</th>
                 <th>Оценки</th>
+                <th>Часы</th>
             </tr>
         </thead>
         <tbody>
@@ -86,7 +102,6 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-<?php endif; ?>
-
+</div>
 </body>
 </html>
