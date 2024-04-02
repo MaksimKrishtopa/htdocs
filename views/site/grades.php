@@ -73,7 +73,8 @@
 </form>
 </div>
 <div class="info__grades-table">
-    
+    <!-- сделать множественный выбор в списках, чтоы отображать несколько разом -->
+    <!-- связать вид контроля с опредленными дисциплинами -->
     <h2>Информация: </h2>
     <select style="margin-bottom: 10px" name="control" id="control">
     <option value="">Выберите вид контроля</option>
