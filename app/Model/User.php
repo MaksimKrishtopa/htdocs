@@ -14,7 +14,8 @@ class User extends Model implements IdentityInterface
    protected $fillable = [
        'name',
        'login',
-       'password'
+       'password',
+       'role'
    ];
 
    protected static function booted()
@@ -43,4 +44,10 @@ class User extends Model implements IdentityInterface
        return self::where(['login' => $credentials['login'],
            'password' => md5($credentials['password'])])->first();
    }
+
+      // Получение роли пользователя
+      public function getRole(): string
+      {
+          return $this->role ?? 'default'; // Возвращаем роль пользователя, либо значение по умолчанию
+      }
 }

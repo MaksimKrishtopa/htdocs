@@ -9,4 +9,6 @@ interface IdentityInterface
    public function getId(): int;
 
    public function attemptIdentity(array $credentials);
+
+   public function getRole(): string; // Добавляем метод для получения роли пользователя
 }

@@ -5,7 +5,7 @@
 <?php
 if (!app()->auth::check()):
    ?>
-   <form method="post">
+   <form style="margin-top: 25px" method="post">
        <label>Логин <input type="text" name="login"></label>
        <label>Пароль <input type="password" name="password"></label>
        <button>Войти</button>

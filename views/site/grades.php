@@ -47,7 +47,7 @@
 <form action="/grades" method="post">
     <label for="grup">Выберите группу:</label>
     <select name="grup" id="grup">
-        <option value="">-- Выберите группу --</option>
+        <option value="">Выберите группу</option>
         <?php foreach ($grups as $grup): ?>
             <option value="<?= $grup->id_grupa ?>"><?= $grup->grup_number ?></option>
         <?php endforeach; ?>
@@ -55,7 +55,7 @@
     
     <label for="discipline">Выберите дисциплину:</label>
     <select name="discipline" id="discipline">
-        <option value="">-- Выберите дисциплину --</option>
+        <option value="">Выберите дисциплину</option>
         <?php foreach ($disciplines as $discipline): ?>
             <option value="<?= $discipline->id_discipline ?>"><?= $discipline->discipline_name ?></option>
         <?php endforeach; ?>
@@ -63,7 +63,7 @@
 
     <label for="student">Выберите студента:</label>
     <select name="student" id="student">
-        <option value="">-- Выберите студента --</option>
+        <option value="">Выберите студента</option>
         <?php foreach ($students as $student): ?>
             <option value="<?= $student->id_student ?>"><?= $student->name ?></option>
         <?php endforeach; ?>

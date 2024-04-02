@@ -58,4 +58,9 @@ class Auth
        return true;
    }
 
+   // Получение роли текущего пользователя
+   public static function getRole(): string
+   {
+       return self::$user->getRole();
+   }
 }
