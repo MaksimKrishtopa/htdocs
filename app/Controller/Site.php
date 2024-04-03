@@ -65,20 +65,20 @@ class Site
     
             // Фильтрация по выбранным критериям
             $gradesQuery = Grade::query();
+            $gradesQuery->select('grade.*', 'grup-disc.hours', 'discipline.discipline_name')
+                        ->join('grup-disc', 'grade.Id_grup-disc', '=', 'grup-disc.Id_grup-disc')
+                        ->join('discipline', 'grup-disc.id_discipline', '=', 'discipline.id_discipline');
+    
             if (!empty($selectedGrupIds)) {
                 // Добавляем условие фильтрации по выбранным группам
-                $gradesQuery->whereIn('Id_grup-disc', function ($query) use ($selectedGrupIds) {
-                    $query->select('Id_grup-disc')
-                        ->from('grup-disc')
-                        ->whereIn('id_grupa', $selectedGrupIds);
-                });
+                $gradesQuery->whereIn('grup-disc.id_grupa', $selectedGrupIds);
             }
             if (!empty($selectedDisciplineIds)) {
                 // Добавляем условие фильтрации по выбранным дисциплинам
-                $gradesQuery->whereIn('id_grup-disc', function ($query) use ($selectedDisciplineIds) {
-                    $query->select('id_grup-disc')
-                        ->from('grup-disc')
-                        ->whereIn('id_discipline', $selectedDisciplineIds);
+                $gradesQuery->whereIn('grup-disc.Id_grup-disc', function ($query) use ($selectedDisciplineIds) {
+                    $query->select('grup-disc.Id_grup-disc')
+                          ->from('grup-disc')
+                          ->whereIn('grup-disc.id_discipline', $selectedDisciplineIds);
                 });
             }
             if (!empty($selectedStudentIds)) {
@@ -87,10 +87,10 @@ class Site
             }
             if (!empty($selectedControlType)) {
                 // Добавляем условие фильтрации по выбранному виду контроля
-                $gradesQuery->whereIn('Id_grup-disc', function ($query) use ($selectedControlType) {
-                    $query->select('Id_grup-disc')
-                        ->from('grup-disc')
-                        ->where('control_type', $selectedControlType);
+                $gradesQuery->whereIn('grup-disc.Id_grup-disc', function ($query) use ($selectedControlType) {
+                    $query->select('grup-disc.Id_grup-disc')
+                          ->from('grup-disc')
+                          ->where('grup-disc.control_type', $selectedControlType);
                 });
             }
             if (!empty($selectedCourse)) {
@@ -110,7 +110,10 @@ class Site
     
             // Получаем оценки с учетом фильтров
             $grades = $gradesQuery->get();
-
+    
+            // Получаем данные о дисциплине (или массив данных) из таблицы grup-disc
+            $disciplineData = GrupDisc::whereIn('Id_grup-disc', $grades->pluck('Id_grup-disc'))->get();
+    
             // Передаем данные о дисциплине (или массив данных) в представление
             return new View('site.grades', [
                 'grups' => $grups,
@@ -118,6 +121,7 @@ class Site
                 'students' => $students,
                 'grades' => $grades,
                 'controlTypes' => $controlTypes,
+                'disciplineData' => $disciplineData,
             ]);
         }
     

@@ -107,18 +107,16 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($grades as $grade): ?>
-                    <tr>
-                        <td><?= $grade->student->name ?></td>
-                        <td><?= $grade->grupDisc->discipline->discipline_name ?? 'Нет данных' ?></td>
-
-
-                        <td><?= $grade->student->group->grup_number ?></td>
-                        <td><?= $grade->grades ?></td>
-                        <td><?= $grade->grupDisc->hours ?? 'Нет данных' ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
+                    <?php foreach ($grades as $grade): ?>
+                        <tr>
+                            <td><?= $grade->student->name ?? 'Нет данных' ?></td>
+                            <td><?= $grade->discipline_name ?? 'Нет данных' ?></td>
+                            <td><?= $grade->student->group->grup_number ?? 'Нет данных' ?></td>
+                            <td><?= $grade->grades ?? 'Нет данных' ?></td>
+                            <td><?= $grade->hours ?? 'Нет данных' ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
         </table>
     </div>
 </body>
