@@ -107,6 +107,8 @@
       <div class="account">
         <?php if (!app()->auth::check()): ?>
           <a href="<?= app()->route->getUrl('/login') ?>">Войти в аккаунт</a>
+                  <span> | </span>
+          <a href="<?= app()->route->getUrl('/signup') ?>">Регистрация</a>
         <?php else: ?>
           <a href="<?= app()->route->getUrl('/logout') ?>">Выйти из аккаунта(<?= app()->auth::user()->name ?>)</a>
         <?php endif; ?>

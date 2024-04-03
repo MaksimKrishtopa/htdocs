@@ -11,10 +11,37 @@ use Model\Grupa;
 use Model\Student;
 use Model\Discipline;
 use Model\GrupDisc; 
-
+use Src\Validator\Validator;
 
 class Site
 {
+
+
+    public function signup(Request $request): string
+    {
+        if ($request->method === 'POST') {
+            $validator = new Validator($request->all(), [
+                'name' => ['required'],
+                'login' => ['required', 'unique:users,login'],
+                'password' => ['required'],
+                'role' => ['required', 'in:administrator,dekan'] // Проверяем, что роль является допустимой
+            ], [
+                'required' => 'Поле :field пусто',
+                'unique' => 'Поле :field должно быть уникально',
+                'in' => 'Выбрана недопустимая роль'
+            ]);
+    
+            if ($validator->fails()) {
+                return new View('site.signup', ['message' => json_encode($validator->errors(), JSON_UNESCAPED_UNICODE)]);
+            }
+    
+            if (User::create($request->all())) {
+                app()->route->redirect('/login');
+            }
+        }
+        return new View('site.signup');
+    }
+
 
     public function showGrades(Request $request): string
     {
@@ -153,8 +180,8 @@ class Site
 
     public function logout(): void
     {
-    Auth::logout();
-    app()->route->redirect('/hello');
+        Auth::logout();
+        app()->route->redirect('/hello');
     }
 
 
