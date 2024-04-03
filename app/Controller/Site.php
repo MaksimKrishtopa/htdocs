@@ -60,6 +60,8 @@ class Site
             $selectedDisciplineIds = $requestData['discipline'] ?? [];
             $selectedStudentIds = $requestData['student'] ?? [];
             $selectedControlType = $requestData['control'] ?? '';
+            $selectedCourse = $requestData['course'] ?? '';
+            $selectedSemester = $requestData['semester'] ?? '';
     
             // Фильтрация по выбранным критериям
             $gradesQuery = Grade::query();
@@ -73,8 +75,8 @@ class Site
             }
             if (!empty($selectedDisciplineIds)) {
                 // Добавляем условие фильтрации по выбранным дисциплинам
-                $gradesQuery->whereIn('Id_grup-disc', function ($query) use ($selectedDisciplineIds) {
-                    $query->select('Id_grup-disc')
+                $gradesQuery->whereIn('id_grup-disc', function ($query) use ($selectedDisciplineIds) {
+                    $query->select('id_grup-disc')
                         ->from('grup-disc')
                         ->whereIn('id_discipline', $selectedDisciplineIds);
                 });
@@ -91,11 +93,25 @@ class Site
                         ->where('control_type', $selectedControlType);
                 });
             }
+            if (!empty($selectedCourse)) {
+                // Добавляем условие фильтрации по выбранному курсу
+                // (предположим, что курс указывается в таблице grupa)
+                $gradesQuery->whereHas('student.group', function ($query) use ($selectedCourse) {
+                    $query->where('course', $selectedCourse);
+                });
+            }
+            if (!empty($selectedSemester)) {
+                // Добавляем условие фильтрации по выбранному семестру
+                // (предположим, что семестр указывается в таблице grupa)
+                $gradesQuery->whereHas('student.group', function ($query) use ($selectedSemester) {
+                    $query->where('semester', $selectedSemester);
+                });
+            }
     
             // Получаем оценки с учетом фильтров
             $grades = $gradesQuery->get();
-    
-            // Возвращаем представление с данными об успеваемости и фильтрами
+
+            // Передаем данные о дисциплине (или массив данных) в представление
             return new View('site.grades', [
                 'grups' => $grups,
                 'disciplines' => $disciplines,
@@ -114,6 +130,7 @@ class Site
             'controlTypes' => $controlTypes,
         ]);
     }
+    
 
     private function checkUserRole(): string
     {

@@ -51,6 +51,20 @@
                     <option value="<?= $grup->id_grupa ?>"><?= $grup->grup_number ?></option>
                 <?php endforeach; ?>
             </select>
+            <label for="course">Выберите курс:</label>
+            <select name="course[]" id="course" multiple>
+                <option value="">Выберите курс</option>
+                <?php for ($i = 1; $i <= 6; $i++): ?>
+                    <option value="<?= $i ?>"><?= $i ?></option>
+                <?php endfor; ?>
+            </select>
+
+            <label for="semester">Выберите семестр:</label>
+            <select name="semester[]" id="semester" multiple>
+                <option value="">Выберите семестр</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select>
             
             <label for="discipline">Выберите дисциплину:</label>
             <select name="discipline[]" id="discipline" multiple>
@@ -96,7 +110,8 @@
                 <?php foreach ($grades as $grade): ?>
                     <tr>
                         <td><?= $grade->student->name ?></td>
-                        <td><?php echo $grade->grupDisc->discipline ? $grade->grupDisc->discipline->discipline_name : 'Нет данных'; ?></td>
+                        <td><?= $grade->grupDisc->discipline->discipline_name ?? 'Нет данных' ?></td>
+
 
                         <td><?= $grade->student->group->grup_number ?></td>
                         <td><?= $grade->grades ?></td>
