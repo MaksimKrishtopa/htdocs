@@ -12,7 +12,7 @@ use Model\Student;
 use Model\Discipline;
 use Model\GrupDisc; 
 use Src\Validator\Validator;
-
+use Model\Grade;
 class Site
 {
 
@@ -48,41 +48,72 @@ class Site
         $grups = Grupa::all();
         $disciplines = Discipline::all();
         $students = Student::all();
-    
-        
         $controlTypes = GrupDisc::distinct('control_type')->pluck('control_type')->toArray();
     
+        // Проверяем, был ли отправлен POST-запрос
         if ($request->method === 'POST') {
-            $selectedGrupId = $request->body['grup'];
-            $selectedDisciplineId = $request->body['discipline'];
-            $selectedStudentId = $request->body['student'];
+            // Получаем данные из запроса
+            $requestData = $request->all();
     
-            $selectedStudent = Student::find($selectedStudentId);
+            // Извлекаем данные из массива запроса
+            $selectedGrupIds = $requestData['grup'] ?? [];
+            $selectedDisciplineIds = $requestData['discipline'] ?? [];
+            $selectedStudentIds = $requestData['student'] ?? [];
+            $selectedControlType = $requestData['control'] ?? '';
     
-            $grades = Grade::where('id_student', $selectedStudentId)
-                           ->where('id_grup-disc', $selectedDisciplineId)
-                           ->get();
+            // Фильтрация по выбранным критериям
+            $gradesQuery = Grade::query();
+            if (!empty($selectedGrupIds)) {
+                // Добавляем условие фильтрации по выбранным группам
+                $gradesQuery->whereIn('Id_grup-disc', function ($query) use ($selectedGrupIds) {
+                    $query->select('Id_grup-disc')
+                        ->from('grup-disc')
+                        ->whereIn('id_grupa', $selectedGrupIds);
+                });
+            }
+            if (!empty($selectedDisciplineIds)) {
+                // Добавляем условие фильтрации по выбранным дисциплинам
+                $gradesQuery->whereIn('Id_grup-disc', function ($query) use ($selectedDisciplineIds) {
+                    $query->select('Id_grup-disc')
+                        ->from('grup-disc')
+                        ->whereIn('id_discipline', $selectedDisciplineIds);
+                });
+            }
+            if (!empty($selectedStudentIds)) {
+                // Добавляем условие фильтрации по выбранным студентам
+                $gradesQuery->whereIn('id_student', $selectedStudentIds);
+            }
+            if (!empty($selectedControlType)) {
+                // Добавляем условие фильтрации по выбранному виду контроля
+                $gradesQuery->whereIn('Id_grup-disc', function ($query) use ($selectedControlType) {
+                    $query->select('Id_grup-disc')
+                        ->from('grup-disc')
+                        ->where('control_type', $selectedControlType);
+                });
+            }
     
+            // Получаем оценки с учетом фильтров
+            $grades = $gradesQuery->get();
+    
+            // Возвращаем представление с данными об успеваемости и фильтрами
             return new View('site.grades', [
                 'grups' => $grups,
                 'disciplines' => $disciplines,
                 'students' => $students,
-                'selectedStudent' => $selectedStudent,
                 'grades' => $grades,
-                'controlTypes' => $controlTypes  
+                'controlTypes' => $controlTypes,
             ]);
         }
     
+        // Если запрос не был отправлен методом POST, просто возвращаем пустое представление с фильтрами
         return new View('site.grades', [
             'grups' => $grups,
             'disciplines' => $disciplines,
             'students' => $students,
-            'selectedStudent' => null,
             'grades' => [],
-            'controlTypes' => $controlTypes  
+            'controlTypes' => $controlTypes,
         ]);
     }
-
 
     private function checkUserRole(): string
     {
