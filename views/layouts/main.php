@@ -88,13 +88,13 @@
         <?php if (app()->auth::check()): ?>
           <?php if (app()->auth::user()->role === 'dekan'): ?>
             <div class="dropdown">
-
                 <a href="<?= app()->route->getUrl('/add_student') ?>">+ Студента</a>
                 <a href="<?= app()->route->getUrl('/add_grup') ?>">+ Группу</a>
                 <a href="<?= app()->route->getUrl('/add_discipline') ?>">+ Дисциплину</a>
                 <a href="<?= app()->route->getUrl('/grades') ?>">Успеваемость</a>
-                <form method="get" action="/search_student">
-                  <input type="text" name="query" placeholder="Поиск по имени, фамилии или отчеству">
+                <form method="post" action="/search">
+                  <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>"/>
+                  <input type="text" name="name" placeholder="Поиск по имени, фамилии или отчеству">
                   <button type="submit">Поиск</button>
                </form>  
             </div>

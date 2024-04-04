@@ -191,38 +191,79 @@ class Site
         }
     }
 
-    
     public function add_student(Request $request): string
     {
         $groups = Grupa::all();
+        
         if ($request->method === 'POST') {
-            // Проверяем, загружено ли изображение
-            if ($request->hasFile('avatar')) {
-                // Получаем файл из запроса
-                $photo = $request->file('avatar');
-                // Сохраняем файл в определенном месте (например, в папке public/images)
-                $photoPath = $photo->store('public/images');
-                // Добавляем путь к фотографии в данные студента перед сохранением
-                $requestData = $request->all();
-                $requestData['avatar'] = $photoPath;
-                // Создаем студента
-                if (Student::create($requestData)) {
-                    app()->route->redirect('/hello');
+           
+            if (!empty($_FILES['avatar'])) {
+                
+                $avatar = $_FILES['avatar'];
+                
+                
+                if ($avatar['error'] === UPLOAD_ERR_OK) {
+                    
+                    $tmpFilePath = $avatar['tmp_name'];
+                    
+                   
+                    $avatarFileName = uniqid() . '_' . $avatar['name'];
+                    
+                    
+                    $targetFilePath = 'images/' . $avatarFileName;
+                    move_uploaded_file($tmpFilePath, $targetFilePath);
+                    
+
+                } else {
+                   
+                    return "Ошибка при загрузке файла: " . $avatar['error'];
                 }
             } else {
-                // Если изображение не загружено, вы можете вывести сообщение об ошибке
+                
+                return "Ошибка: Файл изображения не был загружен.";
+            }
+            
+            
+            $requestData = [
+                'surname' => $request->get('surname'),
+                'name' => $request->get('name'),
+                'patronymic' => $request->get('patronymic'),
+                'gender' => $request->get('gender'),
+                'birthday' => $request->get('birthday'),
+                'address' => $request->get('address'),
+                'grupa' => $request->get('grupa'),
+                'avatar' => $targetFilePath, 
+            ];
+    
+           
+            if (Student::create($requestData)) {
+                
+                app()->route->redirect('/hello');
             }
         }
+        
         return new View('site.add_student', ['groups' => $groups]);
     }
 
-    public function searchStudent(Request $request): string
+    public function search(): string
     {
-        $query = $request->input('query');
-        // Выполните поиск студента по имени, фамилии или отчеству используя $query
-        // Например: $student = Student::where('name', 'like', "%$query%")->orWhere('surname', 'like', "%$query%")->orWhere('patronymic', 'like', "%$query%")->first();
-        // Верните представление с информацией о найденном студенте
-        // Например: return new View('site.student_details', ['student' => $student]);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $query = $_POST['name'] ?? '';
+    
+            
+            $students = Student::where('name', '=', $query)
+                                ->orWhere('surname', '=', $query)
+                                ->orWhere('patronymic', '=', $query)
+                                ->get();
+    
+            if ($students->isNotEmpty()) {
+                return (new View())->render('site.search_results', ['students' => $students]);
+            } else {
+                return (new View())->render('site.search_results', ['message' => 'Студент отсутствует или введены некорректные данные']);
+            }
+        }
+    
+        return '';
     }
         
     
@@ -261,17 +302,25 @@ class Site
     
 
 
-    public function hello(): string
+    public function hello(Request $request): string
     {
-        
         $students = Student::all();
-    
-       
         $groups = Grupa::all();
-
         $disciplines = Discipline::all();
-    
         
+        
+        if ($request->method === 'POST' && $request->input('search') === '1') {
+            
+            $query = $request->input('query');
+            $searchedStudents = Student::where('name', 'like', "%$query%")
+                                        ->orWhere('surname', 'like', "%$query%")
+                                        ->orWhere('patronymic', 'like', "%$query%")
+                                        ->get();
+            
+            return (new View())->render('site.search_results', ['students' => $searchedStudents]);
+        }
+        
+       
         return (new View())->render('site.student', ['students' => $students, 'groups' => $groups, 'disciplines' => $disciplines]);
     }
 

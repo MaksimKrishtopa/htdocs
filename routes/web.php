@@ -13,7 +13,7 @@ Route::add(['GET', 'POST'], '/login', [Controller\Site::class, 'login']);
 Route::add('GET', '/logout', [Controller\Site::class, 'logout']);
 
 Route::add(['GET','POST'], '/add_student', [Controller\Site::class, 'add_student'])
-    ->middleware('auth', 'dekan');
+    ->middleware('auth');
 
 Route::add(['GET','POST'], '/add_grup', [Controller\Site::class, 'add_grup'])
     ->middleware('auth', 'dekan');
@@ -29,4 +29,7 @@ Route::add(['GET', 'POST'], '/grades', [Controller\Site::class, 'showGrades'])
 
 
 Route::add('POST', '/attach_discipline', [Controller\Site::class, 'attachDiscipline'])
+    ->middleware('auth', 'dekan');
+
+    Route::add(['POST'], '/search', [Controller\Site::class, 'search'])
     ->middleware('auth', 'dekan');

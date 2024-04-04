@@ -43,7 +43,7 @@
         <h1>Успеваемость</h1>
         <form action="/grades" method="post">
 
-        <input type="hidden" name="csrf_token" value="<?= \Src\Session::get('csrf_token') ?>">
+        <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>"/>
             <label for="grup">Выберите группу:</label>
             <select name="grup[]" id="grup" multiple>
                 <option value="">Выберите группу</option>

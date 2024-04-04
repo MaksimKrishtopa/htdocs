@@ -6,8 +6,11 @@
     <title>Add Student</title>
 </head>
 <body>
-    <h1>Добавление студента</h1>
-    <form method="post">
+<h1>Добавление студента</h1>
+    <form method="post" enctype="multipart/form-data">
+    
+        <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>"/>
+
         <label for="surname">Surname:</label><br>
         <input type="text" id="surname" name="surname"><br>
         <label for="name">Name:</label><br>
@@ -26,9 +29,10 @@
                 <option value="<?= $group->id_grupa ?>"><?= $group->grup_number ?></option>
             <?php endforeach; ?>
         </select><br><br>
-        <label for="photo">Фотография:</label><br>
-        <input type="file" id="avatar" name="avatar"><br><br>
-        <input type="submit" value="Submit">
+        
+        <input type="file" name="avatar" accept="image/*">
+        <button type="submit">Добавить студента</button>
+
     </form>
 </body>
 </html>
