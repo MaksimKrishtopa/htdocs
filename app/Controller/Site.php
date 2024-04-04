@@ -24,7 +24,7 @@ class Site
                 'name' => ['required'],
                 'login' => ['required', 'unique:users,login'],
                 'password' => ['required'],
-                'role' => ['required', 'in:administrator,dekan'] // Проверяем, что роль является допустимой
+                'role' => ['required', 'in:administrator,dekan'] 
             ], [
                 'required' => 'Поле :field пусто',
                 'unique' => 'Поле :field должно быть уникально',
@@ -41,6 +41,45 @@ class Site
         }
         return new View('site.signup');
     }
+    
+    public function attachDiscipline(Request $request): string
+    {
+        // Проверяем, был ли отправлен POST-запрос
+        if ($request->method === 'POST') {
+            // Получаем данные из запроса
+            $requestData = $request->all();
+            $groupNumber = $requestData['grup_number'] ?? null; // Получаем номер группы
+            $disciplineId = $requestData['id_discipline'] ?? null;
+            $hours = $requestData['hours'] ?? null;
+            $controlType = $requestData['control_type'] ?? null;
+            
+            // Проверяем, что все необходимые данные переданы
+            if ($groupNumber !== null && $disciplineId !== null && $hours !== null && $controlType !== null) {
+                
+                    // Находим id группы по номеру группы
+                    $group = Grupa::where('grup_number', $groupNumber)->first();
+                    
+                    // Проверяем, найдена ли группа
+                    if ($group) {
+                        // Создаем новую запись в таблице grup-disc
+                        GrupDisc::create([
+                            'id_grupa' => $group->id_grupa, // Используем найденный id группы
+                            'id_discipline' => $disciplineId,
+                            'hours' => $hours,
+                            'control_type' => $controlType
+                        ]);
+    
+                        // Перенаправляем пользователя после успешного добавления
+                        app()->route->redirect('/hello');
+                    }
+
+            } 
+        }
+        
+        // Возвращаем пустую строку в случае ошибки
+        return '';
+    }
+    
 
 
     public function showGrades(Request $request): string
@@ -50,12 +89,12 @@ class Site
         $students = Student::all();
         $controlTypes = GrupDisc::distinct('control_type')->pluck('control_type')->toArray();
     
-        // Проверяем, был ли отправлен POST-запрос
+        
         if ($request->method === 'POST') {
-            // Получаем данные из запроса
+            
             $requestData = $request->all();
     
-            // Извлекаем данные из массива запроса
+            
             $selectedGrupIds = $requestData['grup'] ?? [];
             $selectedDisciplineIds = $requestData['discipline'] ?? [];
             $selectedStudentIds = $requestData['student'] ?? [];

@@ -28,3 +28,5 @@ Route::add(['GET', 'POST'], '/grades', [Controller\Site::class, 'showGrades'])
     ->middleware('auth', 'dekan');
 
 
+Route::add('POST', '/attach_discipline', [Controller\Site::class, 'attachDiscipline'])
+    ->middleware('auth', 'dekan');

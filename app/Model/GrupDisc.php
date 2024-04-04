@@ -19,7 +19,7 @@ class GrupDisc extends Model
 
     public function group()
 {
-    return $this->belongsTo(Grupa::class, 'id_grup');
+    return $this->belongsTo(Grupa::class, 'id_grupa');
 }
 
 }
