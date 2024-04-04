@@ -73,7 +73,9 @@ class Site
                         app()->route->redirect('/hello');
                     }
 
-            } 
+            } else {
+                echo "Ошибка: Не все данные переданы";
+            }
         }
         
         // Возвращаем пустую строку в случае ошибки
@@ -189,20 +191,40 @@ class Site
         }
     }
 
+    
     public function add_student(Request $request): string
-
     {
         $groups = Grupa::all();
-        if ($request->method === 'POST' && Student::create($request->all())) {
-            app()->route->redirect('/hello');
-    
+        if ($request->method === 'POST') {
+            // Проверяем, загружено ли изображение
+            if ($request->hasFile('avatar')) {
+                // Получаем файл из запроса
+                $photo = $request->file('avatar');
+                // Сохраняем файл в определенном месте (например, в папке public/images)
+                $photoPath = $photo->store('public/images');
+                // Добавляем путь к фотографии в данные студента перед сохранением
+                $requestData = $request->all();
+                $requestData['avatar'] = $photoPath;
+                // Создаем студента
+                if (Student::create($requestData)) {
+                    app()->route->redirect('/hello');
+                }
+            } else {
+                // Если изображение не загружено, вы можете вывести сообщение об ошибке
+            }
         }
-       
-        
-        
         return new View('site.add_student', ['groups' => $groups]);
     }
-    
+
+    public function searchStudent(Request $request): string
+    {
+        $query = $request->input('query');
+        // Выполните поиск студента по имени, фамилии или отчеству используя $query
+        // Например: $student = Student::where('name', 'like', "%$query%")->orWhere('surname', 'like', "%$query%")->orWhere('patronymic', 'like', "%$query%")->first();
+        // Верните представление с информацией о найденном студенте
+        // Например: return new View('site.student_details', ['student' => $student]);
+    }
+        
     
     public function add_grup(Request $request): string
     {

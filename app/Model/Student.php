@@ -12,7 +12,7 @@ class Student extends Model
     protected $table = 'students';
     protected $primaryKey = 'id_student';
     public $timestamps = false;
-    protected $fillable = ['surname', 'name', 'patronymic', 'gender', 'birthday','address', 'grupa'];
+    protected $fillable = ['surname', 'name', 'patronymic', 'gender', 'birthday','address', 'grupa', 'avatar'];
 
     public function group()
     {

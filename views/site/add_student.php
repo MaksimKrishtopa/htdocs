@@ -26,6 +26,8 @@
                 <option value="<?= $group->id_grupa ?>"><?= $group->grup_number ?></option>
             <?php endforeach; ?>
         </select><br><br>
+        <label for="photo">Фотография:</label><br>
+        <input type="file" id="avatar" name="avatar"><br><br>
         <input type="submit" value="Submit">
     </form>
 </body>
