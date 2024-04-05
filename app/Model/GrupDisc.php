@@ -10,7 +10,7 @@ class GrupDisc extends Model
     protected $primaryKey = 'Id_grup-disc';
     public $timestamps = false;
 
-    protected $fillable = ['id_grup', 'id_discipline', 'hours', 'control_type'];
+    protected $fillable = ['id_grupa', 'id_discipline', 'hours', 'control_type'];
 
     public function discipline()
     {
@@ -19,7 +19,7 @@ class GrupDisc extends Model
 
     public function group()
 {
-    return $this->belongsTo(Grupa::class, 'id_grupa');
+    return $this->belongsTo(Grupa::class, 'id_grupa', 'id_grupa');
 }
 
 }

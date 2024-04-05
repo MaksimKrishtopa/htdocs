@@ -52,7 +52,7 @@ class Site
             $disciplineId = $requestData['id_discipline'] ?? null;
             $hours = $requestData['hours'] ?? null;
             $controlType = $requestData['control_type'] ?? null;
-            
+           
             // Проверяем, что все необходимые данные переданы
             if ($groupNumber !== null && $disciplineId !== null && $hours !== null && $controlType !== null) {
                 
@@ -190,7 +190,29 @@ class Site
                 return 'default';
         }
     }
-
+    public function add_grade(Request $request): string
+    {
+        // Проверяем, был ли отправлен POST-запрос
+        if ($request->method === 'POST') {
+            // Получаем данные из запроса
+            $requestData = $request->all();
+    
+            // Проверяем, есть ли обязательные данные
+            if (isset($requestData['id_student'], $requestData['Id_grup-disc'], $requestData['grades'])) {
+                // Создаем запись оценки в таблице grade
+                if (Grade::create($requestData)) {
+                    // Перенаправляем пользователя после успешного добавления оценки
+                    app()->route->redirect('/search');
+                }
+            } else {
+                // Возвращаем сообщение об ошибке, если не все данные были переданы
+                return 'Ошибка: Не все данные переданы';
+            }
+        }
+    
+        // Возвращаем пустую строку в случае ошибки
+        return '';
+    }
     public function add_student(Request $request): string
     {
         $groups = Grupa::all();

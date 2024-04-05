@@ -19,7 +19,7 @@ class Grupa extends Model
 
         public function disciplines()
     {
-        return $this->hasMany(GrupDisc::class, 'id_grupa');
+        return $this->hasMany(GrupDisc::class, 'id_grupa', 'id_grupa');
     }
 
 }

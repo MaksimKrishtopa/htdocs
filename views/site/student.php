@@ -75,8 +75,8 @@
                 <p class="add-discipline-btn" data-group-id="<?= $group->id ?>">+ дисциплину</p>
                 <div class="group-disciplines" id="group-disciplines-<?= $group->id ?>" >
                     <form method="post" action="/attach_discipline">
-                        <input type="hidden" name="csrf_token" value="<?= \Src\Session::get('csrf_token') ?>">
-                        <input type="hidden" name="group_number" value="<?= $group->grup_number ?>"> <!-- Добавляем скрытое поле для передачи номера группы -->
+                    <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>"/>
+                        <input type="hidden" name="grup_number" value="<?= $group->grup_number ?>"> <!-- Замените на grup_number -->
                         <select name="id_discipline">
                             <?php foreach ($disciplines as $discipline): ?>
                                 <option value="<?= $discipline->id_discipline ?>"><?= $discipline->discipline_name ?></option>
