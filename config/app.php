@@ -22,6 +22,10 @@ return [
 
    'validators' => [
     'required' => \Validators\RequireValidator::class,
-    'unique' => \Validators\UniqueValidator::class
+    'unique' => \Validators\UniqueValidator::class,
+    'gender' => Validators\GenderValidator::class,
+    'date_of_birth' => Validators\DateOfBirthValidator::class,
+    'uppercase' => Validators\UppercaseValidator::class,
+    'group_number' => Validators\GroupNumberValidator::class
     ]
 ];

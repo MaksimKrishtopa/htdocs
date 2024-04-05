@@ -44,32 +44,32 @@ class Site
     
     public function attachDiscipline(Request $request): string
     {
-        // Проверяем, был ли отправлен POST-запрос
+        
         if ($request->method === 'POST') {
-            // Получаем данные из запроса
+           
             $requestData = $request->all();
-            $groupNumber = $requestData['grup_number'] ?? null; // Получаем номер группы
+            $groupNumber = $requestData['grup_number'] ?? null; 
             $disciplineId = $requestData['id_discipline'] ?? null;
             $hours = $requestData['hours'] ?? null;
             $controlType = $requestData['control_type'] ?? null;
            
-            // Проверяем, что все необходимые данные переданы
+           
             if ($groupNumber !== null && $disciplineId !== null && $hours !== null && $controlType !== null) {
                 
-                    // Находим id группы по номеру группы
+                   
                     $group = Grupa::where('grup_number', $groupNumber)->first();
                     
-                    // Проверяем, найдена ли группа
+                   
                     if ($group) {
-                        // Создаем новую запись в таблице grup-disc
+                        
                         GrupDisc::create([
-                            'id_grupa' => $group->id_grupa, // Используем найденный id группы
+                            'id_grupa' => $group->id_grupa, 
                             'id_discipline' => $disciplineId,
                             'hours' => $hours,
                             'control_type' => $controlType
                         ]);
     
-                        // Перенаправляем пользователя после успешного добавления
+                        
                         app()->route->redirect('/hello');
                     }
 
@@ -78,7 +78,7 @@ class Site
             }
         }
         
-        // Возвращаем пустую строку в случае ошибки
+        
         return '';
     }
     
@@ -104,18 +104,18 @@ class Site
             $selectedCourse = $requestData['course'] ?? '';
             $selectedSemester = $requestData['semester'] ?? '';
     
-            // Фильтрация по выбранным критериям
+           
             $gradesQuery = Grade::query();
             $gradesQuery->select('grade.*', 'grup-disc.hours', 'discipline.discipline_name')
                         ->join('grup-disc', 'grade.Id_grup-disc', '=', 'grup-disc.Id_grup-disc')
                         ->join('discipline', 'grup-disc.id_discipline', '=', 'discipline.id_discipline');
     
             if (!empty($selectedGrupIds)) {
-                // Добавляем условие фильтрации по выбранным группам
+                
                 $gradesQuery->whereIn('grup-disc.id_grupa', $selectedGrupIds);
             }
             if (!empty($selectedDisciplineIds)) {
-                // Добавляем условие фильтрации по выбранным дисциплинам
+                
                 $gradesQuery->whereIn('grup-disc.Id_grup-disc', function ($query) use ($selectedDisciplineIds) {
                     $query->select('grup-disc.Id_grup-disc')
                           ->from('grup-disc')
@@ -123,11 +123,11 @@ class Site
                 });
             }
             if (!empty($selectedStudentIds)) {
-                // Добавляем условие фильтрации по выбранным студентам
+                
                 $gradesQuery->whereIn('id_student', $selectedStudentIds);
             }
             if (!empty($selectedControlType)) {
-                // Добавляем условие фильтрации по выбранному виду контроля
+               
                 $gradesQuery->whereIn('grup-disc.Id_grup-disc', function ($query) use ($selectedControlType) {
                     $query->select('grup-disc.Id_grup-disc')
                           ->from('grup-disc')
@@ -135,27 +135,24 @@ class Site
                 });
             }
             if (!empty($selectedCourse)) {
-                // Добавляем условие фильтрации по выбранному курсу
-                // (предположим, что курс указывается в таблице grupa)
+
                 $gradesQuery->whereHas('student.group', function ($query) use ($selectedCourse) {
                     $query->where('course', $selectedCourse);
                 });
             }
             if (!empty($selectedSemester)) {
-                // Добавляем условие фильтрации по выбранному семестру
-                // (предположим, что семестр указывается в таблице grupa)
+
                 $gradesQuery->whereHas('student.group', function ($query) use ($selectedSemester) {
                     $query->where('semester', $selectedSemester);
                 });
             }
     
-            // Получаем оценки с учетом фильтров
+
             $grades = $gradesQuery->get();
-    
-            // Получаем данные о дисциплине (или массив данных) из таблицы grup-disc
+
             $disciplineData = GrupDisc::whereIn('Id_grup-disc', $grades->pluck('Id_grup-disc'))->get();
     
-            // Передаем данные о дисциплине (или массив данных) в представление
+
             return new View('site.grades', [
                 'grups' => $grups,
                 'disciplines' => $disciplines,
@@ -166,7 +163,7 @@ class Site
             ]);
         }
     
-        // Если запрос не был отправлен методом POST, просто возвращаем пустое представление с фильтрами
+
         return new View('site.grades', [
             'grups' => $grups,
             'disciplines' => $disciplines,
@@ -190,29 +187,32 @@ class Site
                 return 'default';
         }
     }
+
+
     public function add_grade(Request $request): string
     {
-        // Проверяем, был ли отправлен POST-запрос
         if ($request->method === 'POST') {
-            // Получаем данные из запроса
             $requestData = $request->all();
-    
-            // Проверяем, есть ли обязательные данные
+            $disciplineId = $requestData['id_discipline'] ?? null;
+            // Проверяем наличие необходимых данных в запросе
             if (isset($requestData['id_student'], $requestData['Id_grup-disc'], $requestData['grades'])) {
-                // Создаем запись оценки в таблице grade
-                if (Grade::create($requestData)) {
-                    // Перенаправляем пользователя после успешного добавления оценки
+                // Создаем запись об оценке
+                if (Grade::create([
+                    'id_student' => $requestData['id_student'],
+                    'Id_grup-disc' => $requestData['Id_grup-disc'],
+                    'grades' => $requestData['grades']
+                ])) {
                     app()->route->redirect('/search');
                 }
             } else {
-                // Возвращаем сообщение об ошибке, если не все данные были переданы
                 return 'Ошибка: Не все данные переданы';
             }
         }
     
-        // Возвращаем пустую строку в случае ошибки
         return '';
     }
+
+
     public function add_student(Request $request): string
     {
         $groups = Grupa::all();
@@ -269,17 +269,21 @@ class Site
 
     public function search(): string
     {
+        $disciplines = Discipline::all(); 
+    
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $query = $_POST['name'] ?? '';
-    
-            
+        
             $students = Student::where('name', '=', $query)
                                 ->orWhere('surname', '=', $query)
                                 ->orWhere('patronymic', '=', $query)
                                 ->get();
-    
+        
             if ($students->isNotEmpty()) {
-                return (new View())->render('site.search_results', ['students' => $students]);
+                return (new View())->render('site.search_results', [
+                    'students' => $students,
+                    'disciplines' => $disciplines,
+                ]);
             } else {
                 return (new View())->render('site.search_results', ['message' => 'Студент отсутствует или введены некорректные данные']);
             }

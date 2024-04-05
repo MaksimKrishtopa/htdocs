@@ -94,7 +94,7 @@
                 <a href="<?= app()->route->getUrl('/grades') ?>">Успеваемость</a>
                 <form method="post" action="/search">
                   <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>"/>
-                  <input type="text" name="name" placeholder="Поиск по имени, фамилии или отчеству">
+                  <input type="text" name="name" placeholder="Поиск по имени, фамилии, отчеству">
                   <button type="submit">Поиск</button>
                </form>  
             </div>
