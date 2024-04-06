@@ -187,31 +187,48 @@ class Site
                 return 'default';
         }
     }
+public function add_grade(Request $request): string
+{
+    if ($request->method === 'POST') {
+        $requestData = $request->all();
+        $disciplineId = $requestData['id_discipline'] ?? null;
+        
+        if (isset($requestData['id_student'], $requestData['id_discipline'], $requestData['grades'])) {
+            
+            $discipline = Discipline::find($requestData['id_discipline']);
 
-
-    public function add_grade(Request $request): string
-    {
-        if ($request->method === 'POST') {
-            $requestData = $request->all();
-            $disciplineId = $requestData['id_discipline'] ?? null;
-            // Проверяем наличие необходимых данных в запросе
-            if (isset($requestData['id_student'], $requestData['Id_grup-disc'], $requestData['grades'])) {
-                // Создаем запись об оценке
-                if (Grade::create([
-                    'id_student' => $requestData['id_student'],
-                    'Id_grup-disc' => $requestData['Id_grup-disc'],
-                    'grades' => $requestData['grades']
-                ])) {
-                    app()->route->redirect('/search');
+           
+            $discipline->load('discipline_name');
+            
+            if ($discipline) {
+                
+                $grupDisc = GrupDisc::where('id_discipline', $requestData['id_discipline'])
+                ->where('id_grupa', $requestData['id_grupa']) 
+                ->first();
+            
+                if ($grupDisc) {
+                
+                    if (Grade::create([
+                        'id_student' => $requestData['id_student'],
+                        'Id_grup-disc' => $grupDisc->{'Id_grup-disc'},
+                        'grades' => $requestData['grades']
+                    ])) {
+                        app()->route->redirect('/hello');
+                    } else {
+                        return 'Ошибка: Не удалось добавить оценку';
+                    }
+                } else {
+                    return 'Ошибка: Не удалось найти запись о дисциплине в группе';
                 }
             } else {
-                return 'Ошибка: Не все данные переданы';
+                return 'Ошибка: Не удалось найти дисциплину';
             }
+        } else {
+            return 'Ошибка: Не все данные переданы';
         }
-    
-        return '';
     }
-
+    return '';
+}
 
     public function add_student(Request $request): string
     {
@@ -285,7 +302,10 @@ class Site
                     'disciplines' => $disciplines,
                 ]);
             } else {
-                return (new View())->render('site.search_results', ['message' => 'Студент отсутствует или введены некорректные данные']);
+                return (new View())->render('site.search_results', [
+                    'students' => $students,
+                    'disciplines' => $disciplines,
+                ]);
             }
         }
     

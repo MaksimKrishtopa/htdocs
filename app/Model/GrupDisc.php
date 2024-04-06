@@ -14,7 +14,7 @@ class GrupDisc extends Model
 
     public function discipline()
     {
-        return $this->belongsTo(Discipline::class, 'id_discipline');
+        return $this->belongsTo(Discipline::class, 'id_discipline', 'id_discipline');
     }
 
     public function group()

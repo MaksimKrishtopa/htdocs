@@ -26,7 +26,7 @@ class User extends Model implements IdentityInterface
        });
    }
 
-   //Выборка пользователя по первичному ключу
+
    public function findIdentity(int $id)
    {
        return self::where('id', $id)->first();
@@ -45,9 +45,8 @@ class User extends Model implements IdentityInterface
            'password' => md5($credentials['password'])])->first();
    }
 
-      // Получение роли пользователя
       public function getRole(): string
       {
-          return $this->role ?? 'default'; // Возвращаем роль пользователя, либо значение по умолчанию
+          return $this->role ?? 'default'; 
       }
 }

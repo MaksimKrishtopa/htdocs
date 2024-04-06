@@ -31,8 +31,9 @@ Route::add(['GET', 'POST'], '/grades', [Controller\Site::class, 'showGrades'])
 Route::add('POST', '/attach_discipline', [Controller\Site::class, 'attachDiscipline'])
     ->middleware('auth', 'dekan');
 
-Route::add(['POST'], '/search', [Controller\Site::class, 'search'])
+Route::add(['GET', 'POST'], '/search', [Controller\Site::class, 'search'])
     ->middleware('auth', 'dekan');
 
-Route::add('POST', '/add_grade', [Controller\Site::class, 'add_grade'])
+Route::add(['GET', 'POST'], '/add_grade', [Controller\Site::class, 'add_grade'])
     ->middleware('auth', 'dekan');
+
