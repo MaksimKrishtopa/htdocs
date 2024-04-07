@@ -6,8 +6,10 @@
     <title>Add Group</title>
 </head>
 <body>
+<h3><?= $message ?? ''; ?></h3>
     <h1>Добавление группы</h1>
     <form method="POST">
+    <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>"/>
         <label for="grup_number">Group Number:</label><br>
         <input type="text" id="grup_number" name="grup_number"><br>
         <label for="course">Course:</label><br>

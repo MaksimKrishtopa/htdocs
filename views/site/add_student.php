@@ -7,6 +7,7 @@
 </head>
 <body>
 <h1>Добавление студента</h1>
+<h3><?= $message ?? ''; ?></h3>
     <form method="post" enctype="multipart/form-data">
     
         <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>"/>
