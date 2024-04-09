@@ -8,6 +8,7 @@
 <body>
     <h1>Добавление декана</h1>
     <form method="POST">
+    <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>"/>
         <label for="name">Name:</label><br>
         <input type="text" id="name" name="name"><br>
         <label for="login">Login:</label><br>

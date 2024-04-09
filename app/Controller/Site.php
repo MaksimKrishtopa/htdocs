@@ -1,7 +1,7 @@
 <?php
 
 namespace Controller;
-
+use Settings\Settings;
 use Model\Post;
 use Src\View;
 use Src\Request;
@@ -15,6 +15,8 @@ use Src\Validator\Validator;
 use Model\Grade;
 class Site
 {
+
+    
 
 
     public function signup(Request $request): string
@@ -187,6 +189,8 @@ class Site
                 return 'default';
         }
     }
+
+    
 public function add_grade(Request $request): string
 {
     if ($request->method === 'POST') {

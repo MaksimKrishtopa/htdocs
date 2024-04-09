@@ -1,4 +1,6 @@
 <?php
+use Settings\Settings;
+use Src\Route;
 //Путь до директории с конфигурационными файлами
 const DIR_CONFIG = '/../config';
 
@@ -20,7 +22,13 @@ function getConfigs(string $path = DIR_CONFIG): array
 
 
 require_once __DIR__ . '/../routes/web.php';
-$app = new Src\Application(new Src\Settings(getConfigs()));
+$app = new Src\Application(new Settings(getConfigs()));
+
+$settings = new Settings(getConfigs());
+
+// Создаем экземпляр класса Route, передавая ему экземпляр класса Settings в конструктор
+$route = Route::single($settings);
+
 
 //Функция возвращает глобальный экземпляр приложения
 function app() {

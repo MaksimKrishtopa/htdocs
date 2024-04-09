@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "464f86939d6c748e787fdba1b202f050",
+    "content-hash": "450cb89cc1026c78e77f7b4621be6f77",
     "packages": [
         {
             "name": "brick/math",
@@ -824,6 +824,49 @@
                 "source": "https://github.com/MaksimKrishtopa/collect/tree/master"
             },
             "time": "2024-04-08T17:34:18+00:00"
+        },
+        {
+            "name": "maksimkrishtopa/settings",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MaksimKrishtopa/settings.git",
+                "reference": "d9a8cefecaf858930df2fe50e10de38a74c87e2a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MaksimKrishtopa/settings/zipball/d9a8cefecaf858930df2fe50e10de38a74c87e2a",
+                "reference": "d9a8cefecaf858930df2fe50e10de38a74c87e2a",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4 | ^8.2"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Settings\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "MaksimKrishtopa",
+                    "email": "k.maks21@mail.ru"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/MaksimKrishtopa/settings/issues",
+                "source": "https://github.com/MaksimKrishtopa/settings/tree/main"
+            },
+            "time": "2024-04-09T18:58:39+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -1718,7 +1761,8 @@
     "stability-flags": {
         "illuminate/database": 20,
         "illuminate/events": 20,
-        "nikic/fast-route": 20
+        "nikic/fast-route": 20,
+        "maksimkrishtopa/collect": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

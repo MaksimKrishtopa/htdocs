@@ -1,4 +1,5 @@
 <?php
+
 //Включаем запрет на неявное преобразование типов
 declare(strict_types=1);
 session_start();
