@@ -254,16 +254,16 @@ public function add_student(Request $request): string
             'birthday' => ':дата рождения должна быть в формате гггг-мм-дд'
         ]);
 
-        // Проверяем, прошла ли валидация успешно
+        
         if ($validator->fails()) {
-            // Если валидация не удалась, возвращаем представление с сообщениями об ошибках
+           
             return new View('site.add_student', [
                 'groups' => $groups,
                 'message' => json_encode($validator->errors(), JSON_UNESCAPED_UNICODE)
             ]);
         }
        
-        // После успешной валидации продолжаем обработку данных и добавление студента
+        
 
         if (!empty($_FILES['avatar'])) {
             
@@ -303,17 +303,17 @@ public function add_student(Request $request): string
             'avatar' => $targetFilePath, 
         ];
 
-        // Добавляем студента в базу данных
+       
         if (Student::create($requestData)) {
             
             app()->route->redirect('/hello');
         } else {
-            // В случае ошибки при добавлении студента, возвращаем сообщение об ошибке
+            
             return 'Ошибка: Не удалось добавить студента';
         }
     }
     
-    // Возвращаем представление с формой добавления студента
+    
     return new View('site.add_student', ['groups' => $groups]);
 }
 
@@ -349,44 +349,44 @@ public function add_student(Request $request): string
     public function add_grup(Request $request): string
     {
         if ($request->method === 'POST') {
-            // Создаем валидатор для проверки номера группы
+            
             $validator = new Validator($request->all(), [
-                'grup_number' => ['required', 'grup_number'], // Используем новый валидатор для проверки номера группы
+                'grup_number' => ['required', 'grup_number'],
             ], [
                 'required' => 'Поле :field пусто',
                 'grup_number' => 'Номер группы должен содержать ровно 3 цифры',
             ]);
     
-            // Проверяем, прошла ли валидация успешно
+            
             if ($validator->fails()) {
-                // Если валидация не удалась, возвращаем представление с сообщениями об ошибках
+                
                 return new View('site.add_grup', [
                     'message' => json_encode($validator->errors(), JSON_UNESCAPED_UNICODE)
                 ]);
             }
             
-            // Добавляем валидацию на уникальность номера группы
+            
             $uniqueValidator = new Validator($request->all(), [
-                'grup_number' => ['unique:grupa,grup_number'], // Используем ваш валидатор для проверки уникальности номера группы в таблице 
+                'grup_number' => ['unique:grupa,grup_number'], 
             ], [
-                'unique' => 'Номер группы уже существует', // Сообщение об ошибке, если номер группы не уникален
+                'unique' => 'Номер группы уже существует', 
             ]);
     
-            // Проверяем, прошла ли валидация успешно
+            
             if ($uniqueValidator->fails()) {
-                // Если валидация не удалась, возвращаем представление с сообщениями об ошибках
+                
                 return new View('site.add_grup', [
                     'message' => json_encode($uniqueValidator->errors(), JSON_UNESCAPED_UNICODE)
                 ]);
             }
             
-            // Если валидация прошла успешно и создание группы также успешно, перенаправляем на страницу приветствия
+            
             if (Grupa::create($request->all())) {
                 app()->route->redirect('/hello');
             }
         }
     
-        // Если запрос не POST или создание группы не удалось, возвращаем представление для добавления группы
+        
         return new View('site.add_grup');
     }
     
