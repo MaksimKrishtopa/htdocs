@@ -77,7 +77,7 @@
                 <?php if (app()->auth::user()->role === 'dekan'): ?>
                 <p class="add-discipline-btn" data-group-id="<?= $group->id ?>">+ дисциплину</p>
                 <div class="group-disciplines" id="group-disciplines-<?= $group->id ?>" >
-                    <form method="post" action="/attach_discipline">
+                    <form method="post" action="/htdocs/attach_discipline">
                     <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>"/>
                         <input type="hidden" name="grup_number" value="<?= $group->grup_number ?>"> 
                         <select name="id_discipline">

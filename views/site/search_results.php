@@ -19,7 +19,7 @@
                     <p class="card-item"><?= $student->surname . ' ' . $student->name . ' ' . $student->patronymic ?></p>
 
 
-                    <form method="post" action="/add_grade">
+                    <form method="post" action="/htdocs/add_grade">
                         <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>"/>
                         <input type="hidden" name="id_student" value="<?= $student->id_student ?>">
                         <input type="hidden" name="id_grupa" value="<?= $student->grupa ?>">

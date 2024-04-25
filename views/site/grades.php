@@ -41,7 +41,7 @@
 <body>
     <div class="grade__container">
         <h1>Успеваемость</h1>
-        <form action="/grades" method="post">
+        <form action="/htdocs/grades" method="post">
 
         <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>"/>
             <label for="grup">Выберите группу:</label>
